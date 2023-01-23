@@ -1,6 +1,8 @@
+#!/bin/python3
 import json
 import websocket
 from time import time
+from time import sleep
 from datetime import datetime
 
 def on_message(ws, message):
@@ -12,7 +14,7 @@ def on_message(ws, message):
         print("*****")
         print("* dt:'" + str(datetime.fromtimestamp(data[2]['created_at'])) + "'       " + data[2]['pubkey'] + ":")
         print("* MSG:")
-        print(data[2]['content'])
+        output(data[2]['content'])
         print('***')
         print("\n\n")
     else:
@@ -30,6 +32,11 @@ def on_open(ws):
     json_data = json.dumps(data)
     ws.send(data)
 
+def output(outStr):                                                                                                                                                                                                                                      
+    for a in outStr[0:len(outStr) - 2]:                                                                                                                                                                                                                                     
+        print(a, end='')                                                                                                                                                                                                                                 
+        sleep(0.1)  
+
 if __name__ == "__main__":
     #websocket.enableTrace(True)
     ws = websocket.WebSocketApp("wss://nostr.orangepill.dev",
@@ -38,3 +45,5 @@ if __name__ == "__main__":
                               on_close = on_close)
     ws.on_open = on_open
     ws.run_forever()
+
+
