@@ -12,15 +12,16 @@ def on_message(ws, message):
     #print(message)
     data = json.loads(message)
     if 0 <= 2 < len(data):
-        print("*****")
-        print("* dt:'" + str(datetime.fromtimestamp(data[2]['created_at'])) + "'       " + data[2]['pubkey'] + ":")
-        print("* MSG:")
-        output(data[2]['content'])
-        print("\n***")
-        print("\n\n")
-    else:
-        print("--------------NOPE")
-        print(message)
+        print(" *******************************************")
+        print(" * dt:'" + str(datetime.fromtimestamp(data[2]['created_at'])) + "'       " + data[2]['pubkey'] + ":")
+        print(" *******************************************")
+        print(" *")
+        print(" *  MSG:")
+        output(" *   " + data[2]['content'])
+        print("\n *")
+        print(" **** END MESSAGE **************************\n\n")
+    #else:
+        #print(message)
 
 def on_error(ws, error):
     print(error)
@@ -30,13 +31,15 @@ def on_close(ws):
 
 def on_open(ws):
     #data = '["REQ", "ec3e6228-5ef3-4162-899c-a58e88de586a", {"kinds":[1], "since":' + str(round((time() - 1000))) + '}]'
-    data = '["REQ", "ec3e6228-5ef3-4162-899c-a58e88de586a", {"kinds":[1], "limit":4}]'
+    data = '["REQ", "ec3e6228-5ef3-4162-899c-a58e88de586a", {"kinds":[1], "limit":20}]'
     json_data = json.dumps(data)
     ws.send(data)
 
 def output(outStr):                                                                                                                                                                                                                                      
     for a in outStr:                                                                                                                                                                                                                                     
-        print(a,end='')                                                                                                                                                                                                                                 
+        print(a,end='')
+        if a == "\n":
+            print(" *   ", end='')
         sleep(0.01)
         sys.stdout.flush()
 
